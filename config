@@ -1,0 +1,21 @@
+#incluir tipo de arquivo
+#1-ZIP, 2-Pasta
+FileType=
+#incluir tipo de download
+#1-SMB, 2-FTP, 3-HTTP (não marque HTTP se o tipo de arquivo não for ZIP)
+UpdateType=
+#Seção para SMB
+SMBDirectory=
+#Seção para Ftp
+FTPHost=
+FTPPort=21
+FTPUser=
+FTPPassword=
+#Url para HTTP
+HTTPUrl=
+#Nome do programa .bat, exe. ou .jar
+#LastOpen, antes de iniciar; Open=Ao Abrir; Close = ao encerrar
+LastOpen=
+Open=
+Close=
+#incluir acesso ao banco, habilitar somente leitura
