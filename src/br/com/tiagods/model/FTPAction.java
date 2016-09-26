@@ -12,30 +12,31 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
  
 public class FTPAction {
- 
-    public static void main(String[] args) {
-        String server = "plkcontabil.com.br";
-        int port = 21;
-        String user = "prolink";
-        String pass = "prolink";
- 
+	static String server = "ftp.prolinkcontabil.com.br";
+	static int port = 21;
+	static String user = "prolinkcontabil";
+	static String password = "plk*link815";
+    static String fileName="SFList.zip";
+	public static void main(String[] args) {
+    	ftpGetFile(server,port,user,password,fileName, "/public_html/downloads/"+fileName);
+    }
+    public static boolean ftpGetFile(String server,int port,String user,String password, String fileName, String remoteFile){    
         FTPClient ftpClient = new FTPClient();
         try {
  
             ftpClient.connect(server, port);
-            ftpClient.login(user, pass);
+            ftpClient.login(user, password);
             ftpClient.enterLocalPassiveMode();
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
  
             // APPROACH #1: using retrieveFile(String, OutputStream)
-            String remoteFile1 = "/1.html";
-            File downloadFile1 = new File(System.getProperty("user.dir")+"/"+"1.html");
+            File downloadFile1 = new File("C:/home/"+fileName);
             OutputStream outputStream1 = new BufferedOutputStream(new FileOutputStream(downloadFile1));
-            boolean success = ftpClient.retrieveFile(remoteFile1, outputStream1);
+            boolean success = ftpClient.retrieveFile(remoteFile, outputStream1);
             outputStream1.close();
  
             if (success) {
-                System.out.println("File #1 has been downloaded successfully.");
+                return true;
             }
  
             // APPROACH #2: using InputStream retrieveFileStream(String)
@@ -56,10 +57,10 @@ public class FTPAction {
 //            outputStream2.close();
 //            inputStream.close();
  
-        } catch (IOException ex) {
-            System.out.println("Error: " + ex.getMessage());
-            ex.printStackTrace();
-        } finally {
+        }catch (IOException ex) {
+        	ex.printStackTrace();
+        	return false;
+        }finally {
             try {
                 if (ftpClient.isConnected()) {
                     ftpClient.logout();
@@ -69,5 +70,6 @@ public class FTPAction {
                 ex.printStackTrace();
             }
         }
+        return false;
     }
     }

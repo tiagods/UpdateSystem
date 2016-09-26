@@ -1,21 +1,21 @@
 #incluir tipo de arquivo
-#1-ZIP, 2-Pasta
-FileType=
+#1-ZIP
+FileType=1
+#Nome
+FileName=SFList.zip
 #incluir tipo de download
-#1-SMB, 2-FTP, 3-HTTP (não marque HTTP se o tipo de arquivo não for ZIP)
-UpdateType=
+#1-SMB, 2-FTP (não marque HTTP se o tipo de arquivo não for ZIP)
+UpdateType=1,2
 #Seção para SMB
-SMBDirectory=
+SMBDirectory=//plkserver/Sistemas/
 #Seção para Ftp
-FTPHost=
+FTPHost=ftp.prolinkcontabil.com.br
 FTPPort=21
-FTPUser=
-FTPPassword=
-#Url para HTTP
-HTTPUrl=
+FTPUser=prolinkcontabil
+FTPPassword=plk*link815
 #Nome do programa .bat, exe. ou .jar
 #LastOpen, antes de iniciar; Open=Ao Abrir; Close = ao encerrar
-LastOpen=
+LastOpen=closeApp.bat
 Open=
-Close=
+Close=openApp.bat
 #incluir acesso ao banco, habilitar somente leitura

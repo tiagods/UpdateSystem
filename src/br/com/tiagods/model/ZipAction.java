@@ -12,9 +12,10 @@ import java.util.zip.ZipFile;
 
 public class ZipAction {
 	public static void main(String[] args){
-		descompactar(new File(System.getProperty("user.dir")+"/Downloads.zip"));
+		descompactar(new File("C:/home/SFList.zip"));
 	}
-	public static void descompactar(File arquivo){
+	
+	public static boolean descompactar(File arquivo){
 		try {
 			ZipFile zipFile = new ZipFile(arquivo);
 			Enumeration entries = zipFile.entries();
@@ -30,12 +31,13 @@ public class ZipAction {
 						new BufferedOutputStream(new FileOutputStream(entry.getName())));
 			}
 			zipFile.close();
+			return true;
 		} catch (IOException ioe) {
 			System.err.println("Erro ao descompactar:" + ioe.getMessage());
-			return;
+			return false;
 		}
 	}
-	public static final void copyInputStream(InputStream in, OutputStream out) throws IOException {
+	public static void copyInputStream(InputStream in, OutputStream out) throws IOException {
 		try{
 			byte[] buffer = new byte[4096];
 			int len;
