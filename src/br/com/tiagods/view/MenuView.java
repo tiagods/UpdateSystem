@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 public class MenuView extends JFrame {
 
-	private JPanel contentPane;
+	static JPanel contentPane;
 
 	/**
 	 * Launch the application.
