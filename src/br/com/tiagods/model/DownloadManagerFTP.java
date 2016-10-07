@@ -2,29 +2,25 @@ package br.com.tiagods.model;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
  
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
  
-public class FTPAction {
+public class DownloadManagerFTP {
 	static String server = "ftp.prolinkcontabil.com.br";
 	static int port = 21;
 	static String user = "prolinkcontabil";
 	static String password = "plk*link815";
     static String fileName="SFList.zip";
-	public static void main(String[] args) {
-    	ftpGetFile(server,port,user,password,fileName, "/public_html/downloads/"+fileName);
-    }
-    public static boolean ftpGetFile(String server,int port,String user,String password, String fileName, String remoteFile){    
+	
+    public boolean downloadFile(String host,int port,String user,String password, String fileName, String remoteFile){    
         FTPClient ftpClient = new FTPClient();
         try {
  
-            ftpClient.connect(server, port);
+            ftpClient.connect(host, port);
             ftpClient.login(user, password);
             ftpClient.enterLocalPassiveMode();
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);

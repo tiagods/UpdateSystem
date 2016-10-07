@@ -11,11 +11,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class ZipAction {
-	public static void main(String[] args){
-		descompactar(new File("C:/home/SFList.zip"));
-	}
 	
-	public static boolean descompactar(File arquivo){
+	public boolean descompactar(File arquivo){
 		try {
 			ZipFile zipFile = new ZipFile(arquivo);
 			Enumeration entries = zipFile.entries();

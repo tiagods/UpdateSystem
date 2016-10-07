@@ -1,4 +1,4 @@
-package br.com.tiagods.model;
+package test;
 
 import java.net.URL;
 
