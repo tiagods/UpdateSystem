@@ -19,6 +19,7 @@ public class Model implements Serializable{
 	private String execName;
 	private String onOpen;
 	private String onClose;
+	private String fT;
 	/**
 	 * @return the fileName
 	 */
@@ -130,13 +131,13 @@ public class Model implements Serializable{
 	/**
 	 * @return the executavelName
 	 */
-	public String getExecutavelName() {
+	public String getExecName() {
 		return execName;
 	}
 	/**
 	 * @param executavelName the executavelName to set
 	 */
-	public void setExecutavelName(String execName) {
+	public void setExecName(String execName) {
 		this.execName = execName;
 	}
 	/**
@@ -162,6 +163,18 @@ public class Model implements Serializable{
 	 */
 	public void setOnClose(String onClose) {
 		this.onClose = onClose;
+	}
+	/**
+	 * @return the fT
+	 */
+	public String getfT() {
+		return fT;
+	}
+	/**
+	 * @param fT the fT to set
+	 */
+	public void setfT(String fT) {
+		this.fT = fT;
 	}
 	
 }

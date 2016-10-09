@@ -1,23 +1,31 @@
 #incluir tipo de arquivo
 #Nome
 FileName=SFList.zip
+
+#Nome do programa principal
+ExecName=SFList.jar
+
 #incluir tipo de download
 #1-HTTP, 2-SMB, 3-FTP (é obrigatório o uso do zip)
 UpdateType=1,2,3
+
 #Seção para HTTP
 HttpUrl=http://www.prolinkcontabil.com.br/downloads
+
 #Seção para SMB
 SMBDirectory=//plkserver/Sistemas
+
 #Seção para Ftp
 FTPHost=ftp.prolinkcontabil.com.br
 FTPPort=21
 FTPUser=prolinkcontabil
 FTPPassword=plk*link815
-FTPDirectory=/public_html/downloads
-#Nome do programa principal
-ExecName=SFList.jar
-#Nome do script .bat, exe. ou .jar
+FTPDirectory=public_html/downloads
+
+#Nome do script .bat, exe
 #LastOpen, antes de iniciar; Open=Ao Abrir; Close = ao encerrar
 OnOpen=openApp.bat
 OnClose=closeApp.bat
-#incluir acesso ao banco, habilitar somente leitura
+
+#Iniciar procedimento de configuração, true para configuração
+FT=false

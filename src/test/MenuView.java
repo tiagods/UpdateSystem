@@ -70,9 +70,17 @@ public class MenuView extends JFrame{
     public MenuView() {  
     	initComponents();
     	DownloadListener listener = new Listener();  
-        DownloadManager manager = new DownloadManager();  
-        manager.addListener(listener);  
-        manager.download(new File("//plkserver/Sistemas/Roberta.rar"), new File(System.getProperty("user.dir")+"/"+"Roberta.rar")); 
+        DownloadManagerFTP manager = new DownloadManagerFTP();
+        manager.addListener(listener);
+        String server = "ftp.prolinkcontabil.com.br";
+    	int port = 21;
+    	String user = "prolinkcontabil";
+    	String password = "plk*link815";
+        String fileName="SFList.zip";
+        manager.downloadFile(server, port, user, password, fileName, "public_html/downloads/SFList.zip");
+        //DownloadManager manager = new DownloadManager();  
+        //manager.addListener(listener);  
+        //manager.download(new File("//plkserver/Sistemas/Roberta.rar"), new File(System.getProperty("user.dir")+"/"+"Roberta.rar")); 
     }
     public void initComponents(){
     	JPanel borderPanel = new JPanel();
@@ -89,7 +97,7 @@ public class MenuView extends JFrame{
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         
         pb = new JProgressBar(0, 100);
-        pb.setForeground(Color.BLUE);
+        pb.setForeground(Color.GREEN);
         pb.setMinimumSize(new Dimension(100, 0));
         pb.setStringPainted(true);
         

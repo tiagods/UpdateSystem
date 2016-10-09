@@ -25,9 +25,10 @@ public class Config {
 			model.setFtpPassword(props.getProperty("FTPPassword").trim());
 			model.setFtpDirectory(props.getProperty("FTPDirectory").trim());
 			//scrips session
-			model.setExecutavelName(props.getProperty("ExecName").trim());
+			model.setExecName(props.getProperty("ExecName").trim());
 			model.setOnOpen(props.getProperty("OnOpen").trim());
 			model.setOnClose(props.getProperty("OnClose").trim());
+			model.setfT(props.getProperty("FT").trim());
 			return true;
 		}catch(IOException e){
 			return false;

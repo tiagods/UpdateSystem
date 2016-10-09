@@ -1,80 +1,106 @@
 package br.com.tiagods.controller;
 
+import static br.com.tiagods.view.MenuProgressView.label;
+import static br.com.tiagods.view.MenuProgressView.lbStatus;
+import static br.com.tiagods.view.MenuProgressView.pb;
+
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.JOptionPane;
 
 import br.com.tiagods.model.ActionRuntime;
 import br.com.tiagods.model.Config;
-import br.com.tiagods.model.DownloadManagerHttp;
+import br.com.tiagods.model.DownloadListener;
 import br.com.tiagods.model.DownloadManagerFTP;
-import br.com.tiagods.model.Model;
+import br.com.tiagods.model.DownloadManagerHttp;
 import br.com.tiagods.model.DownloadManagerSMB;
+import br.com.tiagods.model.Model;
 import br.com.tiagods.model.ZipAction;
+import br.com.tiagods.view.MenuProgressView;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import static br.com.tiagods.view.MenuProgressView.*;
 
-import static br.com.tiagods.view.MenuView.*;
-import interfaces.DownloadListener;
-
-public class Controller {
+public class Controller implements WindowListener{
 	
 	boolean sucess=false;
+	boolean stop=false;
 	
-	public void start(){
+	public void start(MenuProgressView view){
 		Model model = new Model();
 		Config config = new Config();
-		
 		//ler arquivo
-		config.readFile(model);
-		//verificando se arquivo existe no diretorio pai e deletando
-		File file = new File(model.getFileName());
-		if(file.exists())
-			file.delete();
-		File exe = new File(System.getProperty("user.dir")+"/"+model.getExecutavelName());
-		renameExe(exe, "Backup");
-		//executar comando ao abrir
-		if(executeScript(model.getOnOpen())){
-			boolean unzip=false;
-			for(String s : model.getUpdateType()){
-				try{
-					int value = Integer.parseInt(s);
-					switch(value){
-					case 1:
-						if(executeHTTP(model))
-							unzip = unzip(file);
-						break;
-					case 2:
-						if(executeSMB(model))
-							unzip=unzip(file);
-						break;
-					case 3:
-						if(executeFTP(model))
-							unzip=unzip(file);
-						break;
+		boolean configExits = config.readFile(model);
+		if(configExits){
+			//verificar se é a primeira invocacao do sistema
+			if(model.getfT().toUpperCase().equals("TRUE")){
+				view.setVisible(true);
+				//verificando se arquivo existe no diretorio pai e deletando
+				File file = new File(model.getFileName());
+				if(file.exists())
+					file.delete();
+				//executar comando ao abrir
+
+				if(executeScript(model.getOnOpen())){
+
+					File exe = new File(System.getProperty("user.dir")+"/"+model.getExecName());
+					renameExe(exe, "Backup");
+					for(String s : model.getUpdateType()){
+						try{
+							int value = Integer.parseInt(s);
+							switch(value){
+							case 1:
+								if(executeHTTP(model)){
+									sucess=true;
+								}
+								break;
+							case 2:
+								if(executeSMB(model)){
+									sucess=true;
+								}
+								break;
+							case 3:
+								if(executeFTP(model)){
+									sucess=true;
+								}
+								break;
+							}
+							if(sucess)break;
+						}catch(NumberFormatException e){
+							continue;
+						}
+					}//tentativa de descompactar
+					if(stop){
+						if(file.exists())
+							if(unzip(file))
+								file.delete();
 					}
-					if(sucess)break;
-				}catch(NumberFormatException e){
-					continue;
+					if(file.exists()){
+						if(unzip(file))
+							file.delete();
+						File fileBkp = new File(System.getProperty("user.dir")+"/bkp"+model.getExecName());
+						if(fileBkp.exists())
+							fileBkp.delete();
+						System.exit(0);
+					}
 				}
-			}//tentativa de descompactar
-			if(unzip==false) {
-				if(!unzip(file)){
-					lbStatus.setText("Não foi possivel descompactar o conteudo baixo,");
-					label.setText("Abra o sistema e tente executar a atualização novamente.");
-					if(file.exists())
-						file.delete();
-					renameExe(exe,"Restore");
+				else{//remover backup
+					File fileBkp = new File(System.getProperty("user.dir")+"/bkp"+model.getExecName());
+					if(fileBkp.exists())
+						fileBkp.delete();
 				}
+				//executar comando ao fechar
+				executeScript(model.getOnClose());
 			}
-			else{//remover backup
-				File fileBkp = new File(System.getProperty("user.dir")+"/bkp"+model.getExecutavelName());
-				if(fileBkp.exists())
-					fileBkp.delete();
+			else{
+				//invocar tela de configuração
 			}
-			//executar comando ao fechar
-			executeScript(model.getOnClose());
+		}
+		else{
+			//invocar tela de configuração
 		}
 		System.exit(0);
 	}
@@ -97,6 +123,13 @@ public class Controller {
 				file2.renameTo(file);
 				lbStatus.setText("Concluido...");
 				label.setText("Processo de reversão concluido!");
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				lbStatus.setText("Não foi possivel descompactar o conteudo baixo,");
+				label.setText("Abra o sistema e tente executar a atualização novamente.");
 				break;
 		}
 	}
@@ -153,10 +186,6 @@ public class Controller {
 	boolean executeFTP(Model model){
 		DownloadManagerFTP ftp = new DownloadManagerFTP();
 		if(model.getFtpHost().trim().equals("")){
-			lbStatus.setText("O endereço ftp está incorreto");
-			return false;
-		}
-		else if(model.getFtpPassword().trim().equals("")){
 			lbStatus.setText("O endereço ftp está incorreto");
 			return false;
 		}
@@ -223,5 +252,44 @@ public class Controller {
             label.setText(url + ": erro no download: " + erro.getMessage());  
             sucess=false;
         }  
-    }  
+    }
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowClosing(WindowEvent e) {
+		int valor = JOptionPane.showConfirmDialog(null, "Deseja cancelar o processo de atualização?", "Cancelar", JOptionPane.YES_NO_OPTION);
+		if(valor == JOptionPane.YES_OPTION){
+			if(sucess)
+				System.exit(0);
+			stop=true;
+		}
+	}
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}  
 }

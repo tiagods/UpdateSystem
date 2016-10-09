@@ -3,8 +3,6 @@ package br.com.tiagods.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import interfaces.DownloadListener;
-
 public class ActionInterface {
 	
 	private final List<DownloadListener> listeners = new LinkedList<DownloadListener>();  

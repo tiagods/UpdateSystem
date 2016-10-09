@@ -13,19 +13,23 @@ import javax.swing.SwingConstants;
 
 import br.com.tiagods.controller.Controller;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-public class MenuView extends JFrame{  
+public class MenuProgressView extends JFrame{  
 	Controller controller = new Controller();
     public static JProgressBar pb;
     public static JLabel label, lbStatus;
+    private static MenuProgressView view;
     
     public static void main(String[] args){
-    	new MenuView();
+    	view = new MenuProgressView();
     }
     
-    public MenuView() {  
+    public MenuProgressView() {
+    	addWindowListener(controller); 
     	initComponents();
-    	controller.start();
+    	controller.start(view);
     }
     public void initComponents(){
     	JPanel borderPanel = new JPanel();
@@ -42,7 +46,7 @@ public class MenuView extends JFrame{
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         
         pb = new JProgressBar(0, 100);
-        pb.setForeground(Color.BLUE);
+        pb.setForeground(Color.GREEN);
         pb.setMinimumSize(new Dimension(100, 0));
         pb.setStringPainted(true);
         
@@ -91,7 +95,6 @@ public class MenuView extends JFrame{
         borderPanel.setLayout(gl_borderPanel);
         pack();
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }  
 }  

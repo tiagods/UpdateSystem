@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import interfaces.DownloadListener;
-
 public class DownloadManagerSMB {
 	ActionInterface action;
     public void addListener(DownloadListener listener) {  

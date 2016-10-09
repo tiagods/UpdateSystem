@@ -1,4 +1,4 @@
-package interfaces;
+package br.com.tiagods.model;
 
 public interface DownloadListener {
     void onStarted(String url, int total);  
