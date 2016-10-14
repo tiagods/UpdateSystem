@@ -1,2 +1,2 @@
-del SFList.zip
-sflist.exe
+del PDFCheckList.zip
+PDFCheckList.exe

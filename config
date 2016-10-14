@@ -1,9 +1,9 @@
 #incluir tipo de arquivo
 #Nome
-FileName=SFList.zip
+FileName=PDFCheckList.zip
 
 #Nome do programa principal
-ExecName=SFList.jar
+ExecName=PDFCheckList.exe
 
 #incluir tipo de download
 #1-HTTP, 2-SMB, 3-FTP (é obrigatório o uso do zip)
@@ -18,8 +18,8 @@ SMBDirectory=//plkserver/Sistemas
 #Seção para Ftp
 FTPHost=ftp.prolinkcontabil.com.br
 FTPPort=21
-FTPUser=prolinkcontabil
-FTPPassword=plk*link815
+FTPUser=
+FTPPassword=
 FTPDirectory=public_html/downloads
 
 #Nome do script .bat, exe

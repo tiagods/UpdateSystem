@@ -34,7 +34,7 @@ public class ZipAction {
 			return false;
 		}
 	}
-	public static void copyInputStream(InputStream in, OutputStream out) throws IOException {
+	public void copyInputStream(InputStream in, OutputStream out) throws IOException {
 		try{
 			byte[] buffer = new byte[4096];
 			int len;

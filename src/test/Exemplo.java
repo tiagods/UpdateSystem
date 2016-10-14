@@ -6,20 +6,20 @@ public class Exemplo {
 	  
     private class Listener implements DownloadListener {  
   
-        public void onStarted(URL url, int total) {  
+        public void onStarted(String url, int total) {  
             System.out.println(url + ": iniciando o download de " + total + " bytes");  
         }  
   
-        public void onProgress(URL url, byte[] bytes, int lidos, long tempo, long estimado, int recebidos, int total) {  
+        public void onProgress(String url, byte[] bytes, int lidos, long tempo, long estimado, int recebidos, int total) {  
             System.out.println(url + ": " + lidos + " bytes lidos em " + tempo + "ms - tempo estimado: " + estimado + "ms ( recebidos " + recebidos  
                     + " bytes de " + total + " bytes ");  
         }  
   
-        public void onFinished(URL url, int recebidos) {  
+        public void onFinished(String url, int recebidos) {  
             System.out.println(url + ": finalizado o download de " + recebidos + " bytes");  
         }  
   
-        public void onError(URL url, Exception erro) {  
+        public void onError(String url, Exception erro) {  
             System.out.println(url + ": erro no download: " + erro.getMessage());  
         }  
     }  
@@ -38,7 +38,7 @@ public class Exemplo {
         DownloadListener listener = new Listener();  
         DownloadManager manager = new DownloadManager();  
         manager.addListener(listener);  
-        manager.download(url);  
+        //manager.download(url);  
   
     }  
 }  

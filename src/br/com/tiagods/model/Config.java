@@ -21,8 +21,8 @@ public class Config {
 			//ftp session
 			model.setFtpHost(props.getProperty("FTPHost").trim());
 			model.setFtpPort(props.getProperty("FTPPort"));
-			model.setFtpUser(props.getProperty("FTPUser").trim());
-			model.setFtpPassword(props.getProperty("FTPPassword").trim());
+			//model.setFtpUser(props.getProperty("FTPUser").trim());
+			//model.setFtpPassword(props.getProperty("FTPPassword").trim());
 			model.setFtpDirectory(props.getProperty("FTPDirectory").trim());
 			//scrips session
 			model.setExecName(props.getProperty("ExecName").trim());

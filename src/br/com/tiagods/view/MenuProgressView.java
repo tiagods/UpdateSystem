@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JDialog;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
@@ -15,33 +16,45 @@ import br.com.tiagods.controller.Controller;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.UIManager;
+import javax.swing.border.MatteBorder;
 
 public class MenuProgressView extends JFrame{  
 	Controller controller = new Controller();
     public static JProgressBar pb;
     public static JLabel label, lbStatus;
-    private static MenuProgressView view;
+    public static MenuProgressView view;
     
     public static void main(String[] args){
     	view = new MenuProgressView();
     }
     
     public MenuProgressView() {
+    	setResizable(false);
     	addWindowListener(controller); 
     	initComponents();
-    	controller.start(view);
+    	controller.start();
     }
     public void initComponents(){
     	JPanel borderPanel = new JPanel();
+    	borderPanel.setBackground(new Color(255, 102, 51));
         borderPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
         setBackground(Color.WHITE);
         setContentPane(borderPanel);
         JPanel panel = new JPanel();
+        panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+        panel.setBackground(Color.WHITE);
         label = new JLabel();
+        label.setBackground(Color.WHITE);
         
         JLabel lblDonwloadDeAtualizao = new JLabel("Processo de Atualiza\u00E7\u00E3o em Andamento...");
+        lblDonwloadDeAtualizao.setBackground(Color.WHITE);
         JLabel titulo = new JLabel("Atualiza\u00E7\u00E3o de Software");
+        titulo.setBorder(UIManager.getBorder("TitledBorder.border"));
         titulo.setFont(new Font("Tahoma", Font.BOLD, 13));
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         
@@ -51,6 +64,7 @@ public class MenuProgressView extends JFrame{
         pb.setStringPainted(true);
         
         JLabel lblDeveloperBy = new JLabel("Copyrigth : Tiago Dias - Open Source Project in www.github.com/tiagods/UpdateSystem");
+        lblDeveloperBy.setBackground(Color.WHITE);
         GroupLayout gl_borderPanel = new GroupLayout(borderPanel);
         gl_borderPanel.setHorizontalGroup(
         	gl_borderPanel.createParallelGroup(Alignment.LEADING)
@@ -62,6 +76,7 @@ public class MenuProgressView extends JFrame{
         );
         
         lbStatus = new JLabel("");
+        lbStatus.setBackground(Color.WHITE);
         GroupLayout gl_panel = new GroupLayout(panel);
         gl_panel.setHorizontalGroup(
         	gl_panel.createParallelGroup(Alignment.LEADING)
@@ -94,7 +109,7 @@ public class MenuProgressView extends JFrame{
         panel.setLayout(gl_panel);
         borderPanel.setLayout(gl_borderPanel);
         pack();
-        setVisible(true);
         setLocationRelativeTo(null);
+        setVisible(true);
     }  
 }  

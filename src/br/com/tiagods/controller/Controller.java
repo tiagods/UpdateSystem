@@ -29,23 +29,21 @@ public class Controller implements WindowListener{
 	boolean sucess=false;
 	boolean stop=false;
 	
-	public void start(MenuProgressView view){
+	public void start( ){
 		Model model = new Model();
 		Config config = new Config();
 		//ler arquivo
 		boolean configExits = config.readFile(model);
 		if(configExits){
 			//verificar se é a primeira invocacao do sistema
-			if(model.getfT().toUpperCase().equals("TRUE")){
-				view.setVisible(true);
+//			if(model.getfT().toUpperCase().equals("TRUE")){
 				//verificando se arquivo existe no diretorio pai e deletando
-				File file = new File(model.getFileName());
+				File file = new File(System.getProperty("user.dir")+"/"+model.getFileName());
 				if(file.exists())
 					file.delete();
 				//executar comando ao abrir
 
-				if(executeScript(model.getOnOpen())){
-
+				//if(executeScript(model.getOnOpen())){
 					File exe = new File(System.getProperty("user.dir")+"/"+model.getExecName());
 					renameExe(exe, "Backup");
 					for(String s : model.getUpdateType()){
@@ -86,7 +84,7 @@ public class Controller implements WindowListener{
 							fileBkp.delete();
 						System.exit(0);
 					}
-				}
+				//}
 				else{//remover backup
 					File fileBkp = new File(System.getProperty("user.dir")+"/bkp"+model.getExecName());
 					if(fileBkp.exists())
@@ -94,15 +92,15 @@ public class Controller implements WindowListener{
 				}
 				//executar comando ao fechar
 				executeScript(model.getOnClose());
-			}
-			else{
-				//invocar tela de configuração
-			}
+//			}
+//			else{
+//				//invocar tela de configuração
+//			}
 		}
-		else{
-			//invocar tela de configuração
-		}
-		System.exit(0);
+//		else{
+//			//invocar tela de configuração
+//		}
+		//System.exit(0);
 	}
 	//
 	void renameExe(File file, String acao){

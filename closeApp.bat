@@ -1,1 +1,1 @@
-taskill /im sflist.exe
+taskkill /im "javaw.exe"
