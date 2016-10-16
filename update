@@ -22,10 +22,10 @@ FTPUser=
 FTPPassword=
 FTPDirectory=public_html/downloads
 
-#Nome do script .bat, exe
+#Comandos
 #LastOpen, antes de iniciar; Open=Ao Abrir; Close = ao encerrar
-OnOpen=openApp.bat
-OnClose=closeApp.bat
+OnOpen=
+OnClose=PDFCheckList.exe
 
 #Iniciar procedimento de configuração, true para configuração
 FT=false

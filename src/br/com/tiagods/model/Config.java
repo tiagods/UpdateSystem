@@ -10,7 +10,7 @@ public class Config {
 		Properties props ;
 		try{
 			props = new Properties();
-			stream = new FileInputStream("config");
+			stream = new FileInputStream("update");
 			props.load(stream);
 			model.setFileName(props.getProperty("FileName").trim());
 			model.setUpdateType(props.getProperty("UpdateType").trim().split(","));

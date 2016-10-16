@@ -35,72 +35,65 @@ public class Controller implements WindowListener{
 		//ler arquivo
 		boolean configExits = config.readFile(model);
 		if(configExits){
-			//verificar se é a primeira invocacao do sistema
-//			if(model.getfT().toUpperCase().equals("TRUE")){
-				//verificando se arquivo existe no diretorio pai e deletando
-				File file = new File(System.getProperty("user.dir")+"/"+model.getFileName());
-				if(file.exists())
-					file.delete();
-				//executar comando ao abrir
-
-				//if(executeScript(model.getOnOpen())){
-					File exe = new File(System.getProperty("user.dir")+"/"+model.getExecName());
-					renameExe(exe, "Backup");
-					for(String s : model.getUpdateType()){
-						try{
-							int value = Integer.parseInt(s);
-							switch(value){
-							case 1:
-								if(executeHTTP(model)){
-									sucess=true;
-								}
-								break;
-							case 2:
-								if(executeSMB(model)){
-									sucess=true;
-								}
-								break;
-							case 3:
-								if(executeFTP(model)){
-									sucess=true;
-								}
-								break;
-							}
-							if(sucess)break;
-						}catch(NumberFormatException e){
-							continue;
+			//verificando se arquivo existe no diretorio pai e deletando
+			File fileZip = new File(System.getProperty("user.dir")+"/"+model.getFileName());
+			if(fileZip.exists())
+				fileZip.delete();
+			//executar comando ao abrir
+			if(!model.getOnOpen().trim().equals(""))
+				executeScript(model.getOnOpen());
+			File exe = new File(System.getProperty("user.dir")+"/"+model.getExecName());
+			for(String s : model.getUpdateType()){
+				try{
+					int value = Integer.parseInt(s);
+					switch(value){
+					case 1:
+						if(executeHTTP(model)){
+							sucess=true;
 						}
-					}//tentativa de descompactar
-					if(stop){
-						if(file.exists())
-							if(unzip(file))
-								file.delete();
+						break;
+					case 2:
+						if(executeSMB(model)){
+							sucess=true;
+						}
+						break;
+					case 3:
+						if(executeFTP(model)){
+							sucess=true;
+						}
+						break;
 					}
-					if(file.exists()){
-						if(unzip(file))
-							file.delete();
-						File fileBkp = new File(System.getProperty("user.dir")+"/bkp"+model.getExecName());
-						if(fileBkp.exists())
-							fileBkp.delete();
-						System.exit(0);
-					}
-				//}
-				else{//remover backup
+					if(sucess)break;
+				}catch(NumberFormatException e){
+					continue;
+				}
+			}
+			//tentativa de descompactar
+			if(stop){
+				if(fileZip.exists())
+					fileZip.delete();
+			}
+			else{
+				renameExe(exe, "Backup");
+				if(fileZip.exists()){
+					if(unzip(fileZip))
+						fileZip.delete();
+					File fileBkp = new File(System.getProperty("user.dir")+"/bkp"+model.getExecName());
+					if(fileBkp.exists())
+						fileBkp.delete();
+					System.exit(0);
+				}
+				else{
+					//remover backup
 					File fileBkp = new File(System.getProperty("user.dir")+"/bkp"+model.getExecName());
 					if(fileBkp.exists())
 						fileBkp.delete();
 				}
-				//executar comando ao fechar
-				executeScript(model.getOnClose());
-//			}
-//			else{
-//				//invocar tela de configuração
-//			}
+			}
+			//executar comando ao fechar
+			executeScript("\""+System.getProperty("user.dir")+"\\"+model.getOnClose()+"\"");
 		}
-//		else{
-//			//invocar tela de configuração
-//		}
-		//System.exit(0);
+		System.exit(0);
 	}
 	//
 	void renameExe(File file, String acao){
@@ -261,8 +254,8 @@ public class Controller implements WindowListener{
 		int valor = JOptionPane.showConfirmDialog(null, "Deseja cancelar o processo de atualização?", "Cancelar", JOptionPane.YES_NO_OPTION);
 		if(valor == JOptionPane.YES_OPTION){
 			if(sucess)
-				System.exit(0);
-			stop=true;
+				stop=true;
+			System.exit(0);
 		}
 	}
 	@Override
