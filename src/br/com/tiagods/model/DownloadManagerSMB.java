@@ -13,7 +13,7 @@ public class DownloadManagerSMB {
         action = new ActionInterface();
         action.setListener(listener);
     } 
-    public void copiar(File origem, File destino) {  
+    public boolean copiar(File origem, File destino) {  
     	InputStream in=null;
     	OutputStream out=null;
     	try{
@@ -38,8 +38,10 @@ public class DownloadManagerSMB {
                 tempo = System.currentTimeMillis();  
             }  
             action.notificaFim(origem.getAbsolutePath(), bytesRecebidos); 
+            return true;
     	}catch(IOException e){
     		action.notificaErro(origem.getAbsolutePath(), e);
+    		return false;
     	}finally{
     		try {
         		if(in!=null)

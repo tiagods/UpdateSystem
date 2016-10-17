@@ -152,7 +152,7 @@ public class Controller implements WindowListener{
 			return false;
 		}
 		DownloadManagerSMB smb = new DownloadManagerSMB();
-		smb.copiar(new File(model.getSmbDirectory()+"/"+model.getFileName()),
+		sucess = smb.copiar(new File(model.getSmbDirectory()+"/"+model.getFileName()),
 				new File(System.getProperty("user.dir")+"/"+model.getFileName()));
 		return sucess;
 	}
@@ -171,13 +171,14 @@ public class Controller implements WindowListener{
 			e.printStackTrace();
 		}
 		if(url!=null)
-			manager.download(url, new File(System.getProperty("user.dir")+"/"+model.getFileName())); 
+			sucess = manager.download(url, new File(System.getProperty("user.dir")+"/"+model.getFileName())); 
 		return sucess;
 	}
 	boolean executeFTP(Model model){
 		DownloadManagerFTP ftp = new DownloadManagerFTP();
 		if(model.getFtpHost().trim().equals("")){
 			lbStatus.setText("O endereço ftp está incorreto");
+			sucess = false;
 			return false;
 		}
 		else{
@@ -185,10 +186,11 @@ public class Controller implements WindowListener{
 				Integer.parseInt(model.getFtpPort());
 			}catch(NumberFormatException e){
 				lbStatus.setText("A porta ftp está incorreta");
+				sucess = false;
 				return false;
 			}
 		}
-		ftp.downloadFile(model.getFtpHost(), Integer.parseInt(model.getFtpPort()), 
+		sucess = ftp.downloadFile(model.getFtpHost(), Integer.parseInt(model.getFtpPort()), 
 				model.getFtpUser(), model.getFtpPassword(), model.getFileName(), 
 				model.getFtpDirectory()+"/"+model.getFileName());
 		return sucess;
@@ -237,11 +239,9 @@ public class Controller implements WindowListener{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-        	sucess=true;
         }  
         public void onError(String url, Exception erro) {  
             label.setText(url + ": erro no download: " + erro.getMessage());  
-            sucess=false;
         }  
     }
 	@Override

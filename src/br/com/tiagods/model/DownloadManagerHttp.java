@@ -15,7 +15,7 @@ public final class DownloadManagerHttp {
             action = new ActionInterface();
             action.setListener(listener);
         }  
-        public void download(URL url, File destino) {  
+        public boolean download(URL url, File destino) {  
         	OutputStream out=null;
         	try {  
                 URLConnection urlConn = url.openConnection();  
@@ -40,8 +40,10 @@ public final class DownloadManagerHttp {
                     tempo = System.currentTimeMillis();  
                 }  
                 action.notificaFim(url.toString(), bytesRecebidos);  
+                return true;
             } catch (IOException erro) {  
             	action.notificaErro(url.toString(), erro);  
+            	return false;
             } finally{
             	try{
             	if(out!=null)

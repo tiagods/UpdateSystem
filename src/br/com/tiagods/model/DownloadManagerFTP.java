@@ -19,7 +19,7 @@ public class DownloadManagerFTP {
         action.setListener(listener);
     }  
     
-    public void downloadFile(String host,int port,String user,String password, String fileName, String remoteFile){    
+    public boolean downloadFile(String host,int port,String user,String password, String fileName, String remoteFile){    
     	FTPClient ftpClient = new FTPClient();
         OutputStream out = null;
         InputStream inp = null;
@@ -57,9 +57,10 @@ public class DownloadManagerFTP {
             boolean success = ftpClient.completePendingCommand();
             if (success)
             	action.notificaFim(host+"/"+remoteFile, bytesRecebidos);  
+            return true;
         }catch (IOException ex) {
-        	ex.printStackTrace();
         	action.notificaErro(host+"/"+remoteFile.toString(), ex);
+        	return false;
         }finally {
             try {
                 if (ftpClient.isConnected()) {
@@ -71,7 +72,6 @@ public class DownloadManagerFTP {
                 if(inp!=null)
                 	inp.close();
             } catch (IOException ex) {
-                ex.printStackTrace();
             }
         }
     }
