@@ -8,7 +8,6 @@ public class ActionRuntime {
 			Runtime.getRuntime().exec(command);
 			return true;
 		}catch(IOException e){
-			e.printStackTrace();
 			return false;
 		}
 	}

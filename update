@@ -7,7 +7,7 @@ ExecName=PDFCheckList.exe
 
 #incluir tipo de download
 #1-HTTP, 2-SMB, 3-FTP (é obrigatório o uso do zip)
-UpdateType=1,2,3
+UpdateType=3,2,1
 
 #Seção para HTTP
 HttpUrl=http://www.prolinkcontabil.com.br/downloads
@@ -18,7 +18,7 @@ SMBDirectory=//plkserver/Sistemas
 #Seção para Ftp
 FTPHost=ftp.prolinkcontabil.com.br
 FTPPort=21
-FTPUser=
+FTPUser=prolinkcontabil
 FTPPassword=
 FTPDirectory=public_html/downloads
 

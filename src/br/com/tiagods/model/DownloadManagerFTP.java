@@ -19,7 +19,7 @@ public class DownloadManagerFTP {
         action.setListener(listener);
     }  
     
-    public boolean downloadFile(String host,int port,String user,String password, String fileName, String remoteFile){    
+    public boolean downloadFile(String directory,String host,int port,String user,String password, String fileName, String remoteFile){    
     	FTPClient ftpClient = new FTPClient();
         OutputStream out = null;
         InputStream inp = null;
@@ -29,29 +29,28 @@ public class DownloadManagerFTP {
             ftpClient.login(user, password);
             ftpClient.enterLocalPassiveMode();
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-            
             File downloadFile = new File(System.getProperty("user.dir")+"/"+fileName);
-            FTPFile ftpFile = ftpClient.mlistFile(remoteFile);
+            FTPFile ftpFile = ftpClient.mlistFile(directory+"/"+remoteFile);
+            
             long tamanhoTotal = ftpFile.getSize();
             
-            action.notificaInicio(remoteFile, (int) tamanhoTotal);  
-
+            action.notificaInicio(remoteFile,(int) tamanhoTotal);  
             out = new BufferedOutputStream(new FileOutputStream(downloadFile));
-            inp = ftpClient.retrieveFileStream(remoteFile);
+            inp = ftpClient.retrieveFileStream(ftpFile.getName());
             int buffer = 4096;
             byte[] bytes = new byte[buffer];
             int bytesRecebidos = 0;  
             int bytesRestantes = (int)tamanhoTotal;  
             int lidos = -1;  
             long tempo = System.currentTimeMillis();  
-            long tempoTotal = 0;  
+            long tempoTotal = 0;         
             while ((lidos = inp.read(bytes, 0, buffer)) != -1) {
             	tempo = System.currentTimeMillis() - tempo;  
             	tempoTotal += tempo;  
             	out.write(bytes, 0, lidos);//gravando arquivo
             	bytesRecebidos += lidos;  
             	bytesRestantes -= lidos;
-            	action.notificaProgresso(host+"/"+remoteFile, bytes, lidos, tempo, action.tempoEstimado(bytesRecebidos, tempoTotal, bytesRestantes), bytesRecebidos, (int)tamanhoTotal);  
+            	action.notificaProgresso(remoteFile, bytes, lidos, tempo, action.tempoEstimado(bytesRecebidos, tempoTotal, bytesRestantes), bytesRecebidos, (int)tamanhoTotal);  
             	tempo = System.currentTimeMillis();  
             }
             boolean success = ftpClient.completePendingCommand();
@@ -72,6 +71,7 @@ public class DownloadManagerFTP {
                 if(inp!=null)
                 	inp.close();
             } catch (IOException ex) {
+            	ex.printStackTrace();
             }
         }
     }

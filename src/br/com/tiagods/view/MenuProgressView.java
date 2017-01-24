@@ -21,34 +21,39 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
+import java.awt.SystemColor;
 
 public class MenuProgressView extends JFrame{  
 	Controller controller = new Controller();
+	private static String senhaFTP;
     public static JProgressBar pb;
     public static JLabel label, lbStatus;
     public static MenuProgressView view;
     
     public static void main(String[] args){
     	view = new MenuProgressView();
+    	senhaFTP = args[0];
     }
     
     public MenuProgressView() {
     	setResizable(false);
     	addWindowListener(controller); 
     	initComponents();
-    	controller.start();
+    	controller.start(senhaFTP);
     }
     public void initComponents(){
     	JPanel borderPanel = new JPanel();
-    	borderPanel.setBackground(new Color(255, 102, 51));
+    	borderPanel.setBackground(Color.WHITE);
         borderPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
         setBackground(Color.WHITE);
         setContentPane(borderPanel);
         JPanel panel = new JPanel();
+        panel.setForeground(Color.BLUE);
         panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
         panel.setBackground(Color.WHITE);
         label = new JLabel();
+        label.setFont(new Font("Tahoma", Font.PLAIN, 10));
         label.setBackground(Color.WHITE);
         
         JLabel lblDonwloadDeAtualizao = new JLabel("Processo de Atualiza\u00E7\u00E3o em Andamento...");
@@ -76,20 +81,21 @@ public class MenuProgressView extends JFrame{
         );
         
         lbStatus = new JLabel("");
+        lbStatus.setFont(new Font("Tahoma", Font.PLAIN, 10));
         lbStatus.setBackground(Color.WHITE);
         GroupLayout gl_panel = new GroupLayout(panel);
         gl_panel.setHorizontalGroup(
-        	gl_panel.createParallelGroup(Alignment.LEADING)
+        	gl_panel.createParallelGroup(Alignment.TRAILING)
         		.addGroup(gl_panel.createSequentialGroup()
         			.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
         				.addComponent(lbStatus, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
         				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
         					.addComponent(titulo, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
         					.addComponent(lblDeveloperBy, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
-        					.addComponent(pb, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
-        					.addComponent(label, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
-        					.addComponent(lblDonwloadDeAtualizao, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        					.addComponent(lblDonwloadDeAtualizao, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        				.addComponent(label, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+        				.addComponent(pb, GroupLayout.PREFERRED_SIZE, 497, GroupLayout.PREFERRED_SIZE))
+        			.addGap(10))
         );
         gl_panel.setVerticalGroup(
         	gl_panel.createParallelGroup(Alignment.LEADING)

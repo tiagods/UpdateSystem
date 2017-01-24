@@ -29,11 +29,14 @@ public class Controller implements WindowListener{
 	boolean sucess=false;
 	boolean stop=false;
 	
-	public void start( ){
+	public void start(String senhaFTP){
 		Model model = new Model();
 		Config config = new Config();
 		//ler arquivo
+		
 		boolean configExits = config.readFile(model);
+		if(!"".equals(senhaFTP))
+			model.setFtpPassword(senhaFTP);
 		if(configExits){
 			//verificando se arquivo existe no diretorio pai e deletando
 			File fileZip = new File(System.getProperty("user.dir")+"/"+model.getFileName());
@@ -62,9 +65,14 @@ public class Controller implements WindowListener{
 							sucess=true;
 						}
 						break;
+					default:
+						break;
 					}
-					if(sucess)break;
+					if(sucess) 
+						break;
 				}catch(NumberFormatException e){
+					continue;
+				}catch(NullPointerException ex){
 					continue;
 				}
 			}
@@ -91,12 +99,13 @@ public class Controller implements WindowListener{
 				}
 			}
 			//executar comando ao fechar
-			executeScript("\""+System.getProperty("user.dir")+"\\"+model.getOnClose()+"\"");
+			if(new File(model.getOnClose()).exists())
+				executeScript("\""+System.getProperty("user.dir")+"\\"+model.getOnClose()+"\"");
 		}
 		System.exit(0);
 	}
 	//
-	void renameExe(File file, String acao){
+	private void renameExe(File file, String acao){
 		switch(acao){
 			case "Backup":
 				String newName = "bkp"+file.getName();
@@ -132,7 +141,7 @@ public class Controller implements WindowListener{
 			if(!bat.executeCommand(command)){
 				lbStatus.setText("Comando Encerrar interrompido ou arquivo não existe!");
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(10000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -151,7 +160,9 @@ public class Controller implements WindowListener{
 			lbStatus.setText("Diretorio não disponivel via Rede");
 			return false;
 		}
+		DownloadListener listener = new Listener();
 		DownloadManagerSMB smb = new DownloadManagerSMB();
+		smb.addListener(listener);
 		sucess = smb.copiar(new File(model.getSmbDirectory()+"/"+model.getFileName()),
 				new File(System.getProperty("user.dir")+"/"+model.getFileName()));
 		return sucess;
@@ -175,7 +186,9 @@ public class Controller implements WindowListener{
 		return sucess;
 	}
 	boolean executeFTP(Model model){
+		DownloadListener listener = new Listener();
 		DownloadManagerFTP ftp = new DownloadManagerFTP();
+		ftp.addListener(listener);
 		if(model.getFtpHost().trim().equals("")){
 			lbStatus.setText("O endereço ftp está incorreto");
 			sucess = false;
@@ -190,9 +203,9 @@ public class Controller implements WindowListener{
 				return false;
 			}
 		}
-		sucess = ftp.downloadFile(model.getFtpHost(), Integer.parseInt(model.getFtpPort()), 
+		sucess = ftp.downloadFile(model.getFtpDirectory(),model.getFtpHost(), Integer.parseInt(model.getFtpPort()), 
 				model.getFtpUser(), model.getFtpPassword(), model.getFileName(), 
-				model.getFtpDirectory()+"/"+model.getFileName());
+				model.getFileName());
 		return sucess;
 	}
 	boolean unzip(File arquivo){

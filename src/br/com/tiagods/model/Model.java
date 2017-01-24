@@ -13,8 +13,8 @@ public class Model implements Serializable{
 	private String smbDirectory;
 	private String ftpHost;
 	private String ftpPort;
-	private String ftpUser="prolinkcontabil";
-	private String ftpPassword="plk*link815";
+	private String ftpUser;
+	private String ftpPassword;
 	private String ftpDirectory;
 	private String execName;
 	private String onOpen;
