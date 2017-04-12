@@ -89,7 +89,6 @@ public class Controller implements WindowListener{
 					File fileBkp = new File(System.getProperty("user.dir")+"/bkp"+model.getExecName());
 					if(fileBkp.exists())
 						fileBkp.delete();
-					System.exit(0);
 				}
 				else{
 					//remover backup
